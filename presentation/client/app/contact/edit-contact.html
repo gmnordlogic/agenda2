@@ -1,0 +1,64 @@
+﻿<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="widget wblue">
+                    <div data-cc-widget-header title="{{vm.title}}"></div>
+                    <div class="widget-content user">
+
+                        <form name="editContactForm" novalidate>
+
+                            <fieldset>
+                                <div class="row form-group">
+                                    <div class="col-xs-1">
+                                        <label for="first_name">First Name</label>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input id="first_name" type="text" name="fname" value="" data-ng-model="vm.contact.fname" data-ng-required="true" />
+                                        <p data-ng-show="newContactForm.fname.$invalid &&newContactForm.fname.$touched">First name is required!</p>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-xs-1">
+                                        <label for="last_name">Last Name</label>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input id="last_name" type="text" name="lname" value="" data-ng-model="vm.contact.lname" data-ng-required="true" />
+                                        <p data-ng-show="newContactForm.lname.$invalid &&newContactForm.lname.$touched">Last name is required!</p>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-xs-1">
+                                        <label for="email">Email</label>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input id="email" name="email" type="email" value="" data-ng-model="vm.contact.email" data-ng-required="true" />
+                                        <p data-ng-show="newContactForm.email.$invalid &&newContactForm.email.$touched">Email address is required!</p>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-xs-1">
+                                        <label for="phone">Phone</label>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input id="phone" name="phone" value="" type="text" data-ng-model="vm.contact.phone" data-ng-required="true" />
+                                        <p data-ng-show="newContactForm.phone.$invalid &&newContactForm.phone.$touched">What we can do without phone number??? So, is required!</p>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        <button class="btn btn-lg btn-warning col-lg-2" data-ng-click="vm.updateForm(editContactForm)" data-ng-disabled="editContactForm.$invalid"><i class="fa fa-edit"></i> Update contact</button>
+
+                        </form>
+                        <br /><br />
+                    </div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

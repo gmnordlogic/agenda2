@@ -1,0 +1,38 @@
+﻿<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="widget wblue">
+                    <div data-cc-widget-header title="{{vm.title}}"></div>
+                    <div class="widget-content user">
+
+                        <!--<input data-ng-model="vm.filter.name" placeholder="Find contact by name" type="search"/>-->
+                        <table class="table table-condensed table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="c in vm.agenda | filter:vm.filter track by $index">
+                                <td><span class="agenda-name">{{c.fname | lowercase}} {{c.lname | lowercase}}</span></td>
+                                <td>{{c.email | lowercase  }}</td>
+                                <td>{{c.phone }}</td>
+                                <td><a class="btn-warning btn-sm" href="#edit-contact/{{c.id}}"><i class="fa fa-edit"></i> Edit</a> &nbsp;
+                                    <a  class="btn-danger btn-sm" data-ng-click="vm.delete(c)"><i class="fa fa-remove"></i> Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
