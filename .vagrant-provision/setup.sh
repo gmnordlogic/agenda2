@@ -67,10 +67,10 @@ then
 
     apt-get install -y phpmyadmin
     echo 'Copy phinx.yml.dist to phinx.yml'
-    \cp -rf /vagrant/rest/phinx.yml.dist /vagrant/conp-rest/phinx.yml
+    \cp -rf /vagrant/presentation/server/phinx.yml.dist /vagrant/presentation/server/phinx.yml
 
     echo 'Copy local dev db credentials file'
-    \cp -rf /vagrant/rest/src/db-credentials.php.dist /vagrant/rest/src/db-credentials.php
+    \cp -rf /vagrant/presentation/server/src/db-credentials.php.dist /vagrant/presentation/server/src/db-credentials.php
 
     sudo -u vagrant echo 'Already ran first setup' > /home/vagrant/.ran_first_setup
 fi
