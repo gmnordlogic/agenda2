@@ -14,6 +14,7 @@
         vm.title = 'Agenda';
         vm.delete = deleteData;
 
+
         activate();
         getAgenda();
 
@@ -21,10 +22,9 @@
             logger.info('Activated Agenda View');
         }
 
-        function getAgenda() {
-            vm.agenda = dataservice.getAgendaList();
-            return vm.agenda;
-        }
+        dataservice.getAgendaList().then (function(ag) {
+            vm.agenda = ag;
+        });
 
         function deleteData(item){
             var index = vm.agenda.indexOf(item);
