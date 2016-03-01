@@ -9,7 +9,7 @@ require 'Slim/Slim.php';
 require 'Helpers/DBHelper.php';
 
 $app = new \Slim\Slim();
-$db = new \Helpers\DBHelper();
+$db = new DBHelper();
 
 $app->get('/all', 'getContacts');
 $app->get('/page/:page', 'getContactsByPage');
@@ -27,26 +27,42 @@ function getContacts() {
 	$app = \Slim\Slim::getInstance();
     $sql = "SELECT id, fname, lname, email, phone FROM agenda where 1 order by fname asc, lname asc";
 	$contacts = $db->_get($sql);
-	$app->response->setStatus(200);
-    $app->response->body(json_encode($contacts));
+	if (count($contacts) > 0) {
+		$app->response->setStatus( 200 );
+		$app->response->body( json_encode( $contacts ) );
+	} else {
+		$app->response->getStatus(404);
+		$app->response->body( json_encode( ['error'=>true, 'msg'=>'no contacts'] ) );
+	}
 }
 
-function getContactByPage($page){
+function getContactsByPage($page = 0){
 	global $db;
 	$app = \Slim\Slim::getInstance();
-	$start = ()$page - 1) * PERPAGE;
-	$sql = "SELECT id, fname, lname, email, phone FROM agenda where 1 order by fname asc, lname asc LIMIT :start, :how;";
-	$contacts = $db->_get($sql, ['start' => $start, 'how' => PERPAGE]);
-	$app->response->setStatus(200);
-    $app->response->body(json_encode($contacts));
+	$start = ($page - 1) * PERPAGE;
+	$sql = "SELECT id, fname, lname, email, phone FROM agenda order by fname, lname asc LIMIT $start, " . PERPAGE;
+	//echo  $sql . $start;
+	$contacts = $db->_get($sql);
+	if (count($contacts) > 0) {
+		$app->response->setStatus( 200 );
+		$app->response->body( json_encode( $contacts ) );
+	} else {
+		$app->response->getStatus(404);
+		$app->response->body( json_encode( ['error'=>true, 'msg'=>'no contacts'] ) );
+	}
 }
 function getContact($id){
 	global $db;
 	$app = \Slim\Slim::getInstance();
 	$sql = "SELECT * FROM agenda WHERE id=:id;";
-	$contact = $db->_select($sql, ['id' => $id]);
-	$app->response->setStatus(200);
-	$app->response->body(json_encode($contact));
+	$contact = $db->_get($sql, ['id' => $id]);
+	if (!empty($contact)) {
+		$app->response->setStatus( 200 );
+		$app->response->body( json_encode( $contact ) );
+	} else {
+		$app->response->getStatus(404);
+		$app->response->body( json_encode( ['error'=>true, 'msg'=>'no data'] ) );
+	}
 }
 function addContact(){
 	global $db;
@@ -90,7 +106,7 @@ function deleteContact($id){
 	$callback = array('success' => $id);
 	$app->response->body(json_encode($callback));
 }
-function countContacts($id){
+function countContacts(){
 	global $db;
 	$app = \Slim\Slim::getInstance();
 	$sql = "SELECT count(id) countContacts FROM agenda;";

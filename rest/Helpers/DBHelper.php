@@ -1,10 +1,8 @@
 <?php
-session_start();
-include_once ('config.inc.php');
 
-namespace Helpers/DBHelper;
+//namespace Helpers;
 
-class DBHelper extends PDO {
+class DBHelper {
 	
 	public $db;
 

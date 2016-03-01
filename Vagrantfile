@@ -50,9 +50,9 @@ Vagrant.configure(2) do |config|
   #contains the presentation layer code
   config.vm.synced_folder "presentation", "/vagrant/presentation"
   #contains the api layer code
-  #config.vm.synced_folder "rest", "/vagrant/rest"
+  config.vm.synced_folder "rest", "/vagrant/rest"
   #contains the build commands to be run by npm ( for compiling sass to css, ... )
-  #config.vm.synced_folder "bin", "/vagrant/bin"
+  config.vm.synced_folder "bin", "/vagrant/bin"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
