@@ -24,6 +24,7 @@
             getData        : getData,
             deleteData     : deleteData,
             updateData     : updateData,
+            getAgendaPaged : getAgendaPaged,
             ag             : [],
             responseData   : {},
             errors         : [],
@@ -42,6 +43,25 @@
                 service.hasError = false;
                 //console.log ( response );
                 if ( response.data.length == 0 ) {
+                    logger.warning ( 'Agenda is empty. Please try to add a new contact.' );
+                }
+                return response.data;
+            }
+
+            function errorCallback (error) {
+                service.hasError = true;
+                logger.warning ( 'Problem with connection. No response from API! ' + error.data );
+                return false;
+            }
+        }
+
+        function getAgendaPaged (page) {
+            return $http.get ( GET_AGENDA_PAGED_URL + page).then ( successCallback ).catch ( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = false;
+                //console.log ( response );
+                if ( response.data.Count == 0 ) {
                     logger.warning ( 'Agenda is empty. Please try to add a new contact.' );
                 }
                 return response.data;

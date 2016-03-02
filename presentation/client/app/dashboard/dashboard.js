@@ -33,7 +33,7 @@
 
         function getContactsCount(){
             return dataservice.getAgendaCount().then(function(data){
-                vm.count = data[0].countContacts;
+                vm.count = data.countContacts;
                 return vm.count;
             });
         }

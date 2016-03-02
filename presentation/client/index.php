@@ -63,7 +63,7 @@
     <script src="/assets/js/angular-animate.js"></script>
     <script src="/assets/js/angular-route.js"></script>
     <script src="/assets/js/angular-sanitize.js"></script>
-    <!--<script src="/assets/js/angular-local-storage.js"></script>-->
+    <script src="/assets/js/angular-pagination.js"></script>
     <script src="/assets/js/ui-bootstrap-tpls-1.1.2.min.js"></script>
     <script src="/assets/js/bootstrap.js"></script>
     <script src="/assets/js/toastr.js"></script>

@@ -7,7 +7,7 @@
                     <div class="widget-content user">
 
                         <!--<input data-ng-model="vm.filter.name" placeholder="Find contact by name" type="search"/>-->
-                        <table class="table table-condensed table-striped">
+                        <table class="table table-condensed table-striped" data-ng-controller="Agenda">
                             <thead>
                             <tr>
                                 <th>Name</th>
@@ -17,7 +17,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-ng-repeat="c in vm.agenda | filter:vm.filter track by $index">
+                            <!--<tr data-ng-repeat="c in vm.agenda | filter:vm.filter track by $index">-->
+                            <tr dir-paginate="c in vm.agenda | itemsPerPage: vm.contactsPerPage" total-items="vm.totalContacts" current-page="pagination.current">
                                 <td><span class="agenda-name">{{c.fname | lowercase}} {{c.lname | lowercase}}</span></td>
                                 <td>{{c.email | lowercase  }}</td>
                                 <td>{{c.phone }}</td>
@@ -28,6 +29,9 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <dir-pagination-controls template-url="/assets/templates/dirPagination.tpl.html" on-page-change="vm.pageChanged(newPageNumber)"></dir-pagination-controls>
+
                     <div class="widget-foot">
                         <div class="clearfix"></div>
                     </div>

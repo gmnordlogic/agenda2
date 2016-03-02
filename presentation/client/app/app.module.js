@@ -18,6 +18,8 @@
         'ui.bootstrap',
         'app.core',
         'app.widgets',
+        'angularUtils.directives.dirPagination',
+
         /*'LocalStorageModule',*/
 
         /*
