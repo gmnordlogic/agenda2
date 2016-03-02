@@ -36,128 +36,97 @@
         return service;
 
         function getAgendaList () {
-            var deferred = $q.defer ();
-            if ( !service.isDataLoaded || forceReload ) {
-                $http.get ( GET_AGENDA_URL ).then ( successCallback, errorCallback );
-            } else {
-                deferred.resolve ( service.ag );
-            }
+            return $http.get ( GET_AGENDA_URL ).then ( successCallback ).catch ( errorCallback );
 
             function successCallback ( response ) {
-                angular.copy ( response.data, service.ag );
                 service.hasError = false;
-                if ( service.ag.length == 0 ) {
+                //console.log ( response );
+                if ( response.data.length == 0 ) {
                     logger.warning ( 'Agenda is empty. Please try to add a new contact.' );
                 }
-                deferred.resolve ( service.ag );
+                return response.data;
             }
 
-            function errorCallback () {
+            function errorCallback (error) {
                 service.hasError = true;
-                logger.warning ( 'Problem with connection. No response from API!' );
-                deferred.resolve ( [] );
+                logger.warning ( 'Problem with connection. No response from API! ' + error.data );
+                return false;
             }
-
-            return deferred.promise;
         }
 
         function getAgendaCount () {
-            var deferred = $q.defer ();
-            if ( !service.isDataLoaded || forceReload ) {
-                $http.get ( GET_AGENDA_COUNT_URL ).then ( successCallback, errorCallback );
-            } else {
-                deferred.resolve ( service.count );
-            }
+            return $http.get ( GET_AGENDA_COUNT_URL ).then ( successCallback ).catch ( errorCallback );
 
             function successCallback ( response ) {
-                angular.copy ( response.data, service.count );
                 service.hasError = false;
-                deferred.resolve ( service.count );
+                //console.log( response);
+                return response.data;
             }
 
-            function errorCallback () {
+            function errorCallback ( error ) {
                 service.hasError = true;
-                logger.warning ( 'Problem with connection. No response from API!' );
-                deferred.resolve ( [] );
+                logger.warning ( 'Problem with connection. No response from API! ' + error.data );
+                return false;
             }
-
-            return deferred.promise;
         }
 
         function saveData ( person ) {
-            var deferred = $q.defer ();
-            $http.post ( POST_CONTACT_URL, person ).then ( successCallback, errorCallback );
+            return $http.post ( CONTACT_URL, person ).then ( successCallback ).catch ( errorCallback );
 
             function successCallback ( response ) {
-                if ( response.data.error ) {
-                    service.hasError = true;
-                    service.errors   = response.data.errors;
-                    logger.error ( 'Error: ' + response.data.errors );
-                    deferred.resolve ( service.hasError );
-                } else {
-                    service.hasError = false;
-                    service.errors   = [];
-                    deferred.resolve ( service.hasError );
-                }
-            }
-
-            function errorCallback () {
                 service.hasError = true;
-                logger.error ( 'Error: no save no game, connection problem!' );
-                deferred.resolve ( [] );
+                return true;
             }
 
-            return deferred.promise;
+            function errorCallback (error) {
+                service.hasError = true;
+                logger.error ( 'Error: no save no game, connection problem! ' + error.data);
+                return false;
+            }
         }
 
         function getData ( id ) {
-            var deferred = $q.defer ();
-            if ( !service.isDataLoaded || forceReload ) {
-                $http.get ( GET_CONTACT_URL + '/' + id ).then ( successCallback, errorCallback );
-            } else {
-                deferred.resolve ( service.person );
-            }
+            return $http.get ( CONTACT_URL + '/' + id ).then ( successCallback ).catch( errorCallback );
 
             function successCallback ( response ) {
-                angular.copy ( response.data, service.person );
                 service.hasError = false;
-                deferred.resolve ( service.person );
+                //console.log(response);
+                return response.data;
             }
 
-            function errorCallback () {
+            function errorCallback (error) {
                 service.hasError = true;
-                logger.error ( 'Error: cannot read a person from database. Connection problem' );
-                deferred.resolve ( [] );
+                logger.error ( 'Error: cannot read a person from database. Connection problem! ' + error.data );
             }
-
-            return deferred.promise;
         }
 
         function deleteData ( id ) {
-            var deferred = $q.defer ();
-            if ( !service.isDataLoaded || forceReload ) {
-                $http.delete ( CONTACT_URL + '/' + id ).then ( successCallback, errorCallback );
-            } else {
-                deferred.resolve ( service.person );
-            }
+             return $http.delete ( CONTACT_URL + '/' + id ).then ( successCallback ).catch (errorCallback );
 
-            function successCallback ( response ) {
-                angular.copy ( response.data, service.person );
+             function successCallback ( response ) {
                 service.hasError = false;
-                deferred.resolve ( service.person );
-            }
+                 return true;
+             }
 
-            function errorCallback () {
+             function errorCallback (error) {
                 service.hasError = true;
-                logger.error ( 'Error: couldnt delete the person. Connection problem' );
-                deferred.resolve ( [] );
-            }
-
-            return deferred.promise;
+                logger.error ( 'Error: couldnt delete the person. Connection problem! ' + error.data );
+             }
         }
 
         function updateData ( person ) {
-            saveData ( person );
+            return $http.put ( CONTACT_URL + '/' + person.id, person ).then ( successCallback ).catch ( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = true;
+                return true;
+            }
+
+            function errorCallback (error) {
+                service.hasError = true;
+                logger.error ( 'Error: no update, connection problem! ' + error.data);
+                return false;
+            }
         }
 
         function prime () {

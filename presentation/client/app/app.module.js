@@ -18,7 +18,7 @@
         'ui.bootstrap',
         'app.core',
         'app.widgets',
-        'LocalStorageModule',
+        /*'LocalStorageModule',*/
 
         /*
          * Feature areas

@@ -12,6 +12,7 @@
         /*jshint validthis: true */
         var vm = this;
 
+        vm.count = 0;
         vm.news = {
             title: 'Agenda News',
             description: 'AngularUI Agenda v2 is now in development!'
@@ -27,10 +28,14 @@
 
         function activate() {
             logger.info('Activated Dashboard View');
+            getContactsCount();
         }
 
         function getContactsCount(){
-            return dataservice.getAgendaCount();
+            return dataservice.getAgendaCount().then(function(data){
+                vm.count = data[0].countContacts;
+                return vm.count;
+            });
         }
     }
 })();
