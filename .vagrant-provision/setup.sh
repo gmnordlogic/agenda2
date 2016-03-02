@@ -66,13 +66,6 @@ then
     echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
 
     apt-get install -y phpmyadmin
-    echo 'Copy phinx.yml.dist to phinx.yml'
-    \cp -rf /vagrant/presentation/server/phinx.yml.dist /vagrant/presentation/server/phinx.yml
-
-    echo 'Copy local dev db credentials file'
-    \cp -rf /vagrant/presentation/server/src/db-credentials.php.dist /vagrant/presentation/server/src/db-credentials.php
-
-    sudo -u vagrant echo 'Already ran first setup' > /home/vagrant/.ran_first_setup
 fi
 
 echo 'Copying agenda.dev config file'
@@ -96,7 +89,7 @@ sudo sed -i -- 's/APACHE_RUN_GROUP=www\-data/APACHE_RUN_GROUP=vagrant/g' /etc/ap
 echo 'Restarting apache'
 sudo service apache2 restart
 
-echo 'Creating the db ( only if it was not created previously )'
+echo 'Creating and fill the db ( only if it was not created previously )'
 mysql -uroot -ppass1234 < /vagrant/.vagrant-provision/create_db.sql
 
 #sudo locale-gen UTF-8
