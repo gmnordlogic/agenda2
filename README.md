@@ -1,11 +1,11 @@
 # AngularUI Agenda 2
-Demonstrates how is build an AngularJS application using best practices, based on AngularUI and Bootstrap, and of course, PHP and MySQL for the api.
+Demonstrates how is build an AngularJS application using best practices, based on AngularUI and Bootstrap, and of course, PHP and MySQL for the api, with pagination and sorting.
 
 ## Version
-2.0.0
+2.0.3
 
 ## Release Date
-02/03/2016
+05/03/2016
 
 ## What the application do?
 With this app you can record your contacts. After that, you can edit them or remove them from your application. All information are saved into MySQL database.

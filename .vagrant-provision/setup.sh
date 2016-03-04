@@ -28,9 +28,9 @@ then
     echo "Installing Mysql"
     sudo apt-get install mysql-server -y > /dev/null
 
-#    echo "Modifying Hosts file"
-#    sudo echo "127.0.1.1 agenda.dev" >> /etc/hosts
-#    sudo echo "192.168.33.170 agenda.dev" >> /etc/hosts
+    echo "Modifying Hosts file"
+    sudo echo "127.0.1.1 agenda.dev" >> /etc/hosts
+    sudo echo "192.168.33.170 agenda.dev" >> /etc/hosts
 
     echo "Modifying Hostname file"
     sudo echo "vagrant-agenda" > /etc/hostname
