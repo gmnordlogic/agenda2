@@ -6,7 +6,7 @@
                     <div data-cc-widget-header title="{{vm.title}}"></div>
                     <div class="widget-content user">
 
-                        <!--<input data-ng-model="vm.filter.name" placeholder="Find contact by name" type="search"/>-->
+                        <label>Search for a contact: </label> <input data-ng-model="search" placeholder="Find contact" type="search"/>
                         <table class="table table-condensed table-striped" data-ng-controller="Agenda">
                             <thead>
                             <tr>
@@ -18,7 +18,7 @@
                             </thead>
                             <tbody>
                             <!--<tr data-ng-repeat="c in vm.agenda | filter:vm.filter track by $index">-->
-                            <tr dir-paginate="c in vm.agenda | itemsPerPage: vm.contactsPerPage" total-items="vm.totalContacts" current-page="pagination.current">
+                            <tr dir-paginate="c in vm.agenda |filter:search | itemsPerPage: vm.contactsPerPage" total-items="vm.totalContacts" current-page="pagination.current">
                                 <td><span class="agenda-name">{{c.fname | lowercase}} {{c.lname | lowercase}}</span></td>
                                 <td>{{c.email | lowercase  }}</td>
                                 <td>{{c.phone }}</td>
