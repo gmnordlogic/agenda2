@@ -16,6 +16,9 @@
         vm.contactsPerPage = 10;
         vm.delete = deleteData;
         vm.pageChanged = pageChanged;
+        vm.sort = sort;
+        vm.sortKey = null;
+        vm.reverse = false;
 
         activate();
 
@@ -54,6 +57,11 @@
             //console.log(id);
             dataservice.deleteData(id);
             logger.info('Contact deleted: ' + name);
+        }
+
+        function sort(keyname){
+            vm.sortKey = keyname;
+            vm.reverse = !vm.reverse;
         }
     }
 })();
