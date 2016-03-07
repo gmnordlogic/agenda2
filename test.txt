@@ -1,0 +1,4 @@
+prima liniuta vine aici
+prima linie din fisier
+a doua linie din fisier
+a patra linie din fisier
