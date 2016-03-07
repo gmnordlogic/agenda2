@@ -1,3 +1,8 @@
+prima liniuta vine aici
 prima linie in fisier
 a doua linie in fisier
 a treia liniuta in fisier
+a patra linie in fisier
+a cincea linie in fisier
+a sasea linie in fisier 
+and so on 
