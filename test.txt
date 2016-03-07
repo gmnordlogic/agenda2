@@ -1,0 +1,3 @@
+prima linie in fisier
+a doua linie in fisier
+a treia liniuta in fisier
