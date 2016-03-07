@@ -16,7 +16,7 @@
     <!-- inject-vendor:css -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/assets/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/assets/css/toastr.css" rel="stylesheet" />
+    <!-- <link href="/assets/css/toastr.css" rel="stylesheet" /> -->
     <!-- endinject -->
 
     <!-- inject:css -->
@@ -49,6 +49,20 @@
             <div class="page-splash">
                 <div class="page-splash-message">
                     AngularUI AGENDA 2.
+                </div>
+                <div class="progress progress-striped active page-progress-bar">
+                    <div class="bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div data-ng-include="'app/layout/shell.html'"></div>
+        <div id="splash-page" data-ng-show="false">
+            <div class="page-splash">
+                <div class="page-splash-message">
+                    ALT TITLU
                 </div>
                 <div class="progress progress-striped active page-progress-bar">
                     <div class="bar"></div>
