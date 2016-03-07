@@ -48,7 +48,7 @@
         <div id="splash-page" data-ng-show="false">
             <div class="page-splash">
                 <div class="page-splash-message">
-                    AngularUI AGENDA 2.
+                    Un titlu oarecare
                 </div>
                 <div class="progress progress-striped active page-progress-bar">
                     <div class="bar"></div>
@@ -110,13 +110,7 @@
     <script src="/app/dashboard/config.route.js"></script>
     <script src="/app/dashboard/dashboard.js"></script>
 
-    <!--agenda module-->
-    <script src="/app/agenda/agenda.module.js"></script>
-    <script src="/app/agenda/config.route.js"></script>
-    <script src="/app/agenda/agenda.js"></script>
-    <!-- endinject -->
-    
-    <!--contact module-->
+    <!--comm module-->
     <script src="/app/contact/new-contact.module.js"></script>
     <script src="/app/contact/config.route.js"></script>
     <script src="/app/contact/new-contact.js"></script>
