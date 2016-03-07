@@ -6,10 +6,15 @@
         .factory ( 'dataservice', dataservice );
 
     /* @ngInject */
-    dataservice.$inject = [ "$http", "$location", "$q", "exception", "logger", "localStorageService" ];
-    function dataservice ( $http, $location, $q, exception, logger, localStorageService ) {
+    dataservice.$inject = [ "$http", "$location", "$q", "exception", "logger" ];
+    function dataservice ( $http, $location, $q, exception, logger ) {
         var isPrimed = false;
         var primePromise;
+
+        var GET_AGENDA_URL       = '/api/all';
+        var GET_AGENDA_PAGED_URL = '/api/page/';
+        var CONTACT_URL          = '/api/contact';
+        var GET_AGENDA_COUNT_URL = '/api/count';
 
         var service = {
             getAgendaList  : getAgendaList,
@@ -19,31 +24,108 @@
             getData        : getData,
             deleteData     : deleteData,
             updateData     : updateData,
+            ag             : [],
+            responseData   : {},
+            errors         : [],
+            hasError       : false,
+            isDataLoaded   : false,
+            count          : [],
+            person         : []
         };
 
         return service;
 
         function getAgendaList () {
-            var list  = localStorageService.keys ();
-            var items = [];
-            if ( list.length < 1 ) {
-                logger.warning ( 'Agenda is empty. Please try to add a new contact.' );
-                return null;
-            } else {
-                for ( var i = 0; i < list.length; i++ ) {
-                    items[ i ] = {};
-                    items[ i ] = getData ( list[ i ] );
+            return $http.get ( GET_AGENDA_URL ).then ( successCallback ).catch ( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = false;
+                //console.log ( response );
+                if ( response.data.length == 0 ) {
+                    logger.warning ( 'Agenda is empty. Please try to add a new contact.' );
                 }
-                return items;
+                return response.data;
+            }
+
+            function errorCallback (error) {
+                service.hasError = true;
+                logger.warning ( 'Problem with connection. No response from API! ' + error.data );
+                return false;
             }
         }
 
         function getAgendaCount () {
-            var len = localStorageService.length ();
-            if (!len){
-                return 0;
-            } else {
-                return len;
+            return $http.get ( GET_AGENDA_COUNT_URL ).then ( successCallback ).catch ( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = false;
+                //console.log( response);
+                return response.data;
+            }
+
+            function errorCallback ( error ) {
+                service.hasError = true;
+                logger.warning ( 'Problem with connection. No response from API! ' + error.data );
+                return false;
+            }
+        }
+
+        function saveData ( person ) {
+            return $http.post ( CONTACT_URL, person ).then ( successCallback ).catch ( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = true;
+                return true;
+            }
+
+            function errorCallback (error) {
+                service.hasError = true;
+                logger.error ( 'Error: no save no game, connection problem! ' + error.data);
+                return false;
+            }
+        }
+
+        function getData ( id ) {
+            return $http.get ( CONTACT_URL + '/' + id ).then ( successCallback ).catch( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = false;
+                //console.log(response);
+                return response.data;
+            }
+
+            function errorCallback (error) {
+                service.hasError = true;
+                logger.error ( 'Error: cannot read a person from database. Connection problem! ' + error.data );
+            }
+        }
+
+        function deleteData ( id ) {
+             return $http.delete ( CONTACT_URL + '/' + id ).then ( successCallback ).catch (errorCallback );
+
+             function successCallback ( response ) {
+                service.hasError = false;
+                 return true;
+             }
+
+             function errorCallback (error) {
+                service.hasError = true;
+                logger.error ( 'Error: couldnt delete the person. Connection problem! ' + error.data );
+             }
+        }
+
+        function updateData ( person ) {
+            return $http.put ( CONTACT_URL + '/' + person.id, person ).then ( successCallback ).catch ( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = true;
+                return true;
+            }
+
+            function errorCallback (error) {
+                service.hasError = true;
+                logger.error ( 'Error: no update, connection problem! ' + error.data);
+                return false;
             }
         }
 
@@ -70,27 +152,6 @@
                     return $q.all ( nextPromises );
                 } )
                 .catch ( exception.catcher ( '"ready" function failed' ) );
-        }
-
-        function saveData ( person ) {
-            var id          = (new Date ()).getTime ();
-            person.id       = id;
-            var str_to_save = angular.toJson ( person, false );
-            return localStorageService.set ( id, str_to_save );
-        }
-
-        function getData ( id ) {
-            var str_from = localStorageService.get ( id );
-            return angular.fromJson ( str_from );
-        }
-
-        function deleteData ( id ) {
-            return localStorageService.remove ( id );
-        }
-
-        function updateData(person) {
-            deleteData(person.id);
-            return saveData(person);
         }
     }
 }) ();

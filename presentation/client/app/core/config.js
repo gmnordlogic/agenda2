@@ -15,9 +15,9 @@
     }
 
     var configs = {
-        appErrorPrefix: '[NG-Agenda Error] ', //Configure the exceptionHandler decorator
+        appErrorPrefix: '[NG-Agenda2 Error] ', //Configure the exceptionHandler decorator
         appTitle: 'AngularUI Agenda 2',
-        version: '1.0.0'
+        version: '2.0.0'
     };
 
     core.value('config', configs);
@@ -39,7 +39,7 @@
 
         // Configure the common route provider
         routehelperConfigProvider.config.$routeProvider = $routeProvider;
-        routehelperConfigProvider.config.docTitle = 'NG-Agenda: ';
+        routehelperConfigProvider.config.docTitle = 'NG-Agenda2: ';
         var resolveAlways = { /* @ngInject */
             /*ready: function(dataservice) {
                 return dataservice.ready();

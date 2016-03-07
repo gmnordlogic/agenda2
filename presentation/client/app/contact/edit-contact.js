@@ -25,8 +25,16 @@
         activate ();
 
         function activate () {
-            vm.contact = dataservice.getData(vm.id);
+            vm.contact = getContact();
             logger.info ( 'Activated Agenda contact editing form' );
+        }
+
+        function getContact(){
+            return dataservice.getData(vm.id).then(function(data){
+                vm.contact = data[0];
+                console.log(vm.contact);
+                return vm.contact;
+            });
         }
 
         function updateForm ( editContactForm ) {
