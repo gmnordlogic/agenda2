@@ -11,27 +11,29 @@
         var isPrimed = false;
         var primePromise;
 
-        var GET_AGENDA_URL       = '/api/all';
-        var GET_AGENDA_PAGED_URL = '/api/page/';
-        var CONTACT_URL          = '/api/contact';
-        var GET_AGENDA_COUNT_URL = '/api/count';
+        var GET_AGENDA_URL            = '/api/all';
+        var GET_AGENDA_PAGED_URL      = '/api/page/';
+        var CONTACT_URL               = '/api/contact';
+        var GET_AGENDA_COUNT_URL      = '/api/count';
+        var GET_AGENDA_PAGED_FULL_URL = '/api/pagefull/';
 
         var service = {
-            getAgendaList  : getAgendaList,
-            getAgendaCount : getAgendaCount,
-            ready          : ready,
-            saveData       : saveData,
-            getData        : getData,
-            deleteData     : deleteData,
-            updateData     : updateData,
-            getAgendaPaged : getAgendaPaged,
-            ag             : [],
-            responseData   : {},
-            errors         : [],
-            hasError       : false,
-            isDataLoaded   : false,
-            count          : [],
-            person         : []
+            getAgendaList      : getAgendaList,
+            getAgendaCount     : getAgendaCount,
+            ready              : ready,
+            saveData           : saveData,
+            getData            : getData,
+            deleteData         : deleteData,
+            updateData         : updateData,
+            getAgendaPaged     : getAgendaPaged,
+            getAgendaPagedFull : getAgendaPagedFull,
+            ag                 : [],
+            responseData       : {},
+            errors             : [],
+            hasError           : false,
+            isDataLoaded       : false,
+            count              : [],
+            person             : []
         };
 
         return service;
@@ -48,15 +50,15 @@
                 return response.data;
             }
 
-            function errorCallback (error) {
+            function errorCallback ( error ) {
                 service.hasError = true;
                 logger.warning ( 'Problem with connection. No response from API! ' + error.data );
                 return false;
             }
         }
 
-        function getAgendaPaged (page) {
-            return $http.get ( GET_AGENDA_PAGED_URL + page).then ( successCallback ).catch ( errorCallback );
+        function getAgendaPaged ( page ) {
+            return $http.get ( GET_AGENDA_PAGED_URL + page ).then ( successCallback ).catch ( errorCallback );
 
             function successCallback ( response ) {
                 service.hasError = false;
@@ -67,7 +69,7 @@
                 return response.data;
             }
 
-            function errorCallback (error) {
+            function errorCallback ( error ) {
                 service.hasError = true;
                 logger.warning ( 'Problem with connection. No response from API! ' + error.data );
                 return false;
@@ -98,15 +100,15 @@
                 return true;
             }
 
-            function errorCallback (error) {
+            function errorCallback ( error ) {
                 service.hasError = true;
-                logger.error ( 'Error: no save no game, connection problem! ' + error.data);
+                logger.error ( 'Error: no save no game, connection problem! ' + error.data );
                 return false;
             }
         }
 
         function getData ( id ) {
-            return $http.get ( CONTACT_URL + '/' + id ).then ( successCallback ).catch( errorCallback );
+            return $http.get ( CONTACT_URL + '/' + id ).then ( successCallback ).catch ( errorCallback );
 
             function successCallback ( response ) {
                 service.hasError = false;
@@ -114,24 +116,24 @@
                 return response.data;
             }
 
-            function errorCallback (error) {
+            function errorCallback ( error ) {
                 service.hasError = true;
                 logger.error ( 'Error: cannot read a person from database. Connection problem! ' + error.data );
             }
         }
 
         function deleteData ( id ) {
-             return $http.delete ( CONTACT_URL + '/' + id ).then ( successCallback ).catch (errorCallback );
+            return $http.delete ( CONTACT_URL + '/' + id ).then ( successCallback ).catch ( errorCallback );
 
-             function successCallback ( response ) {
+            function successCallback ( response ) {
                 service.hasError = false;
-                 return true;
-             }
+                return true;
+            }
 
-             function errorCallback (error) {
+            function errorCallback ( error ) {
                 service.hasError = true;
                 logger.error ( 'Error: couldnt delete the person. Connection problem! ' + error.data );
-             }
+            }
         }
 
         function updateData ( person ) {
@@ -142,9 +144,36 @@
                 return true;
             }
 
-            function errorCallback (error) {
+            function errorCallback ( error ) {
                 service.hasError = true;
-                logger.error ( 'Error: no update, connection problem! ' + error.data);
+                logger.error ( 'Error: no update, connection problem! ' + error.data );
+                return false;
+            }
+        }
+
+        /* using for full search/sort/order */
+        function getAgendaPagedFull ( page, searchStr, sortkey, reverse ) {
+            var obj      = {
+                'page'   : page,
+                'search' : searchStr,
+                'sortby' : sortkey,
+                'order'  : reverse
+            };
+            var objToSend = angular.toJson ( obj );
+            return $http.post ( GET_AGENDA_PAGED_FULL_URL, objToSend ).then ( successCallback ).catch ( errorCallback );
+
+            function successCallback ( response ) {
+                service.hasError = false;
+                //console.log ( response );
+                if ( response.data.Count == 0 ) {
+                    logger.warning ( 'Agenda is empty. Please try to add a new contact.' );
+                }
+                return response.data;
+            }
+
+            function errorCallback ( error ) {
+                service.hasError = true;
+                logger.warning ( 'Problem with connection. No response from API! ' + error.data );
                 return false;
             }
         }

@@ -14,6 +14,7 @@ $db = new DBHelper();
 $app->get( '/all/', 'getContacts' );
 $app->get('/page/', 'getContactsByPage');
 $app->get( '/page/:page', 'getContactsByPage' );
+$app->post( '/pagefull/', 'getContactsByPageFull' );
 $app->get( '/contact/:id', 'getContact' );
 $app->post( '/contact/', 'addContact' );
 $app->put( '/contact/:id', 'updateContact' );
@@ -47,6 +48,56 @@ function getContactsByPage( $page = 0 )
     $app = \Slim\Slim::getInstance();
     $start = ( $page - 1 ) * PERPAGE;
     $sql = "SELECT id, fname, lname, email, phone FROM agenda order by fname, lname asc LIMIT $start, " . PERPAGE;
+    //echo  $sql . $start;
+    $contacts = $db->_get( $sql );
+    if ( count( $contacts ) > 0 ) {
+        $app->response->setStatus( 200 );
+        $app->response->body( json_encode( [ 'Count' => $count, 'Items' => $contacts ] ) );
+    } else {
+        $app->response->getStatus( 404 );
+        $app->response->body( json_encode( [ 'error' => TRUE, 'msg' => 'no contacts' ] ) );
+    }
+}
+
+function getContactsByPageFull()
+{
+    $request = \Slim\Slim::getInstance()->request();
+    $body = $request->getBody();
+    $obj = json_decode($body);
+    //var_dump($obj);exit;
+    if ($obj == '') {
+        getContactsByPage(0);
+        return;
+    }
+    global $db;
+    $page = $obj->page;
+    $search_str = $obj->search;
+    $sortby = !isset($obj->sortby) ? '' : $obj->sortby;
+    $orderby = !isset($obj->order) ? '' : $obj->order;
+    if (trim($search_str) != '') {
+        $where = " WHERE fname LIKE '%$search_str%' OR lname LIKE '%$search_str%' OR email LIKE '%$search_str%' OR phone LIKE '%$search_str%' ";
+    } else {
+        $where = '';
+    }
+    if (empty($order) OR !isset($order)) {
+        $order = true;
+    }
+    if (trim($sortby) != '') {
+        $sort = " ORDER BY $sortby";
+        if ($order) {
+            $sort .= " DESC ";
+        } else {
+            $sort .= " ASC ";
+        }
+    } else {
+        $sort = "ORDER BY fname, lname ASC ";
+    }
+    $count = getCount($where . $sort);
+    $page = $page + 1 -1;
+    if ($page == 0 || ($page -1)  > $count / PERPAGE) $page = 1;
+    $app = \Slim\Slim::getInstance();
+    $start = ( $page - 1 ) * PERPAGE;
+    $sql = "SELECT id, fname, lname, email, phone FROM agenda $where $sort LIMIT $start, " . PERPAGE;
     //echo  $sql . $start;
     $contacts = $db->_get( $sql );
     if ( count( $contacts ) > 0 ) {
@@ -121,10 +172,10 @@ function deleteContact( $id )
     $app->response->body( json_encode( $callback ) );
 }
 
-function getCount()
+function getCount($sub_sql = '')
 {
     global $db;
-    $sql = "SELECT count(id) as countContacts FROM agenda;";
+    $sql = "SELECT count(id) as countContacts FROM agenda $sub_sql;";
     $count = $db->_get( $sql );
 
     return $count[0]['countContacts'];

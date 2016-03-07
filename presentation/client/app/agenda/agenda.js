@@ -41,7 +41,8 @@
         }
 
         function getPages(page){
-            return dataservice.getAgendaPaged(page).then(function(data){
+            //return dataservice.getAgendaPaged(page).then(function(data){
+            return dataservice.getAgendaPagedFull(page, '', vm.sortKey, vm.reverse).then(function(data){
                 vm.agenda = data.Items;
                 vm.totalContacts = data.Count;
                 //console.log(vm.agenda);
@@ -59,9 +60,10 @@
             logger.info('Contact deleted: ' + name);
         }
 
-        function sort(keyname){
+        function sort(keyname, page){
             vm.sortKey = keyname;
             vm.reverse = !vm.reverse;
+            pageChanged(page);
         }
     }
 })();

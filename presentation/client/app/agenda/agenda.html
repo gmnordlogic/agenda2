@@ -10,13 +10,13 @@
                         <table class="table table-condensed table-striped" data-ng-controller="Agenda">
                             <thead>
                             <tr>
-                                <th data-ng-click="vm.sort('fname')">Name
+                                <th data-ng-click="vm.sort('fname', pagination.current)">Name
                                     <span class="fa" ng-show="vm.sortKey=='fname'" ng-class="{'fa-chevron-up':vm.reverse,'fa-chevron-down':!vm.reverse}"></span>
                                 </th>
-                                <th data-ng-click="vm.sort('email')">Email
+                                <th data-ng-click="vm.sort('email', pagination.current)">Email
                                     <span class="fa " ng-show="vm.sortKey=='email'" ng-class="{'fa-chevron-up':vm.reverse,'fa-chevron-down':!vm.reverse}"></span>
                                 </th>
-                                <th data-ng-click="vm.sort('phone')">Phone
+                                <th data-ng-click="vm.sort('phone', pagination.current)">Phone
                                     <span class="fa " ng-show="vm.sortKey=='phone'" ng-class="{'fa-chevron-up':vm.reverse,'fa-chevron-down':!vm.reverse}"></span>
                                 </th>
                                 <th>Action</th>
@@ -28,7 +28,7 @@
                                 <td><span class="agenda-name">{{c.fname | lowercase}} {{c.lname | lowercase}}</span></td>
                                 <td>{{c.email | lowercase  }}</td>
                                 <td>{{c.phone }}</td>
-                                <td><a class="btn-warning btn-sm" href="#edit-contact/{{c.id}}"><i class="fa fa-edit"></i> Edit</a> &nbsp;
+                                <td><a class="btn-warning btn-sm" href="#edit-contact/{{c.id}}"><i class="fa fa-edit"></i> Edit</a> &nbsp;s
                                     <a  class="btn-danger btn-sm" data-ng-click="vm.delete(c)"><i class="fa fa-remove"></i> Delete</a>
                                 </td>
                             </tr>
