@@ -1,0 +1,5 @@
+prima linie in fisier
+a doua linie din fisier
+a treia liniuta din fisier
+a patra linie in fisier
+a cincea linie in fisier
