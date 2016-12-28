@@ -40,7 +40,7 @@ For Windows/OS-X/Linux you must follow the next steps:
  - Open a terminal (on OS-X or Linux) or command prompt (on Windows)
  - run command: ```vagrant up```
  - to access the shell of the virtual machine type on a terminal (you must be in the application folder): ```vagrant ssh```
- - Now you can access the application on your prefered broswer: ```http://agenda.dev/ ```
+ - Now you can access the application on your prefered browser: ```http://agenda.dev/ ```
  
 ### How to access the API
 If you need to access the API, go: ```http://agenda.dev/api/ ``` 
@@ -57,7 +57,7 @@ You can use some parameters:
  - access the application from your browser like: ```http://your_server/agenda/```
 
 ## The end
-That's all. For any questions please contact me at: ```gheorghe.morodan@nordlogic.com``` 
+That's all. For any questions please contact me at: ```gheorghe@morodan.com``` 
 
 **Bye**
 
